@@ -7,7 +7,7 @@ The pipeline includes:
 - A **Python ML stage** using scikit-learn (`RandomForestRegressor`) to predict future positions
 - A **Python visualization stage** with Matplotlib animations and trajectory comparison plots
 
-The simulation complexity is `O(m * n^2)`, where:
+The simulation complexity is $$O(m \cdot n^2)$$, where:
 - `m` is the number of time steps
 - `n` is the number of particles
 
