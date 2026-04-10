@@ -14,8 +14,8 @@ class Particle{
         std::array<long double, kDIMENSION> velocity; // velocity in meters per second
         std::array<long double, kDIMENSION> acceleration;
         long double mass; // Mass in kilograms
-        long double charge; // Charge in Coulumbs
-        long double radius; // Radious in meters
+        long double charge; // Charge in coulombs
+        long double radius; // Radius in meters
 
         Particle(std::array<long double, kDIMENSION> position, std::array<long double, kDIMENSION> velocity, long double mass, long double charge, long double radius);
 

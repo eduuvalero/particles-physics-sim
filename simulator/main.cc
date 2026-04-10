@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <stdexcept>
 
 #include "Particle.h"
 #include "Physics.h"
@@ -18,26 +19,30 @@ void importConfig(long double& dt, int& steps){
     ifstream file(config);
     string line, value;
 
-    if(file.is_open()){
-        getline(file, line);
-
-        getline(file, line);
-        stringstream sLine(line);
-
-        getline(sLine, value, ',');
-        steps = stoi(value);
-        if(steps <= 0){
-            throw invalid_argument("the steps must be grater than 0");
-        }
-
-        getline(sLine, value);
-        dt = stold(value);
-        if(dt <= 0){
-            throw invalid_argument("dt must be grater than 0");
-        }
-
-        file.close();
+    if(!file.is_open()){
+        throw runtime_error("config.csv could not be opened");
     }
+
+    getline(file, line);
+    if(!getline(file, line)){
+        throw invalid_argument("config.csv must contain one data row");
+    }
+
+    stringstream sLine(line);
+
+    getline(sLine, value, ',');
+    steps = stoi(value);
+    if(steps <= 0){
+        throw invalid_argument("steps must be greater than 0");
+    }
+
+    getline(sLine, value);
+    dt = stold(value);
+    if(dt <= 0){
+        throw invalid_argument("dt must be greater than 0");
+    }
+
+    file.close();
 }
 
 vector<Particle> importParticles(){
@@ -45,40 +50,41 @@ vector<Particle> importParticles(){
     ifstream file(dataset);
     string line;
 
-    if(file.is_open()){
-        string value;
-        getline(file, line);
-
-        while(getline(file, line)){
-            stringstream sLine(line);
-            long double data[2*kDIMENSION + 3];
-            int i = 0;
-
-            while(getline(sLine, value, ',')){
-                data[i++] = stold(value);
-            }
-
-            if(i != 2*kDIMENSION + 3) continue;
-
-            std::array<long double, 3> pos;
-            std::array<long double, 3> vel;
-
-            for (int j = 0; j < kDIMENSION; j++)
-                pos[j] = data[j];
-
-            for (int j = 0; j < kDIMENSION; j++)
-                vel[j] = data[j + kDIMENSION];
-
-            long double mass = data[2*kDIMENSION];
-            long double charge = data[2*kDIMENSION + 1];
-            long double radius = data[2*kDIMENSION + 2];
-
-            particles.emplace_back(pos, vel, mass, charge, radius);
-        }
-
-        file.close();
+    if(!file.is_open()){
+        throw runtime_error("dataset.csv could not be opened");
     }
 
+    string value;
+    getline(file, line);
+
+    while(getline(file, line)){
+        stringstream sLine(line);
+        long double data[2*kDIMENSION + 3];
+        int i = 0;
+
+        while(getline(sLine, value, ',')){
+            data[i++] = stold(value);
+        }
+
+        if(i != 2*kDIMENSION + 3) continue;
+
+        std::array<long double, 3> pos;
+        std::array<long double, 3> vel;
+
+        for (int j = 0; j < kDIMENSION; j++)
+            pos[j] = data[j];
+
+        for (int j = 0; j < kDIMENSION; j++)
+            vel[j] = data[j + kDIMENSION];
+
+        long double mass = data[2*kDIMENSION];
+        long double charge = data[2*kDIMENSION + 1];
+        long double radius = data[2*kDIMENSION + 2];
+
+        particles.emplace_back(pos, vel, mass, charge, radius);
+    }
+
+    file.close();
     return particles;
 }
 
@@ -113,7 +119,7 @@ int main() {
     try {
         importConfig(dt, steps);
     }
-    catch(const invalid_argument &e){
+    catch(const std::exception &e){
         cerr << "Error importing config.csv: " << e.what() << std::endl;
         return 1;
     }
@@ -121,7 +127,7 @@ int main() {
     try {
         particles = importParticles();
     }
-    catch(const invalid_argument &e){
+    catch(const std::exception &e){
         cerr << "Error creating particles: " << e.what() << std::endl;
         return 1;
     }

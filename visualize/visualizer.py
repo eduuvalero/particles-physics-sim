@@ -16,7 +16,7 @@ result_dir = args.results
 def load_simulation_data(filename):
     df = pd.read_csv(filename)
     particle_ids = df['id'].unique()
-    total_steps = df['step'].max()
+    total_steps = int(df['step'].max()) + 1
     
     return df, particle_ids, total_steps
 

@@ -1,6 +1,6 @@
 # Particle Physics Simulator
 
-This project is a simple particle physics simulator that simulates the motion of charged particles in 3D space with a C++ engine, trains a Random Forest Regressor machine learning model from scikit-learn model in Python, and visualizes, stores and compare both simulated and predicted trajectories.
+This project is a simple particle physics simulator that simulates the motion of charged particles in 3D space with a C++ engine, trains a Random Forest Regressor machine learning model from scikit-learn in Python, and visualizes, stores, and compares both simulated and predicted trajectories.
 
 The pipeline includes:
 - A **C++ simulator** with pairwise gravitational and electrostatic interactions plus elastic collisions
@@ -12,7 +12,7 @@ The simulation complexity is `O(m * n^2)`, where:
 - `n` is the number of particles
 
 ---
-This is an example of the output of the full program running it with the default values of`data\dataset.csv` and `data\config.csv`
+This is an example of the output of the full program running it with the default values of `data\dataset.csv` and `data\config.csv`
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/e987d90f-b0a5-4438-9a9a-c9b8215ba9b1" width="33%">
@@ -84,7 +84,7 @@ Windows
 
 ### Individual stages
 
-Run each step separately from the `scripts/` folder when you only want to redo one single part of the pipeline.
+Run each step separately when you only want to redo one part of the pipeline.
 
 > Compile the C++ simulator
 Linux / MacOS

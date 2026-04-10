@@ -10,13 +10,13 @@ echo ""
 
 if [ ! -f "data/particles.csv" ]; then
     echo "[ERROR] data/particles.csv not found"
-    echo "Please train first using: scripts/train-[linux].sh"
+    echo "Please train first using: scripts/train.sh"
     exit 1
 fi
 
 if [ ! -f "data/predictions.csv" ]; then
     echo "[ERROR] data/predictions.csv not found"
-    echo "Please train first using: scripts/train-[linux].sh"
+    echo "Please train first using: scripts/train.sh"
     exit 1
 fi
 

@@ -9,15 +9,15 @@ echo.
 cd /d "%~dp0\.."
 
 if not exist "data\particles.csv" (
-    echo [ERROR] Executable 'simulator\simulator.exe' not found
-    echo Please build the project first using: scripts\build-[win].bat
+    echo [ERROR] data\particles.csv not found
+    echo Please run training first using: scripts\train.bat
     pause
     exit /b 1
 )
 
 if not exist "data\predictions.csv" (
-    echo [ERROR] Executable 'simulator\simulator.exe' not found
-    echo Please train the model first using: scripts\train-[win].bat
+    echo [ERROR] data\predictions.csv not found
+    echo Please run training first using: scripts\train.bat
     pause
     exit /b 1
 )

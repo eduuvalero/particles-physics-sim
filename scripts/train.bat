@@ -10,7 +10,7 @@ echo =========================================
 echo.
 
 if not exist "data\dataset.csv" (
-    echo [ERROR] Executable 'simulator\simulator.exe' not found
+    echo [ERROR] data\dataset.csv not found
     echo Please create data\dataset.csv
     pause
     exit /b 1
@@ -18,7 +18,7 @@ if not exist "data\dataset.csv" (
 
 if not exist "simulator\simulator.exe" (
     echo [ERROR] Executable 'simulator\simulator.exe' not found
-    echo Please build the project first using: scripts\build-[win].bat
+    echo Please build the project first using: scripts\build.bat
     pause
     exit /b 1
 )

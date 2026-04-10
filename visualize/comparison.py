@@ -46,8 +46,8 @@ ax.set_xlim(df['x'].min() - margin, df['x'].max() + margin)
 ax.set_ylim(df['y'].min() - margin, df['y'].max() + margin)
 ax.set_zlim(df['z'].min() - margin, df['z'].max() + margin)
 ax.legend(facecolor='#1a1a1a', labelcolor='white', framealpha=0.6)
-fig.canvas.manager.set_window_title("Simulation vs Model prediction Comparation")
-fig.suptitle("Simulation vs Model prediction Comparation", color='white', fontsize=14, fontweight='bold')
+fig.canvas.manager.set_window_title("Simulation vs Model Prediction Comparison")
+fig.suptitle("Simulation vs Model Prediction Comparison", color='white', fontsize=14, fontweight='bold')
 
 plt.tight_layout()
 plt.savefig(f'{result_dir}/comparison.png', dpi=150, bbox_inches='tight',

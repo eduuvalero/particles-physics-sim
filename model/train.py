@@ -32,13 +32,15 @@ def read_data():
 
 
 def train_model(X, Y):
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        X, Y, test_size=0.2, random_state=42
+    )
 
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-    model = RandomForestRegressor(n_estimators=100)
+    model = RandomForestRegressor(n_estimators=100, random_state=42)
     model.fit(X_train, Y_train)
 
     print(f"R² train: {model.score(X_train, Y_train):.4f}")
