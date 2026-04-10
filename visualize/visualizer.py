@@ -135,6 +135,6 @@ def visualize(data, title, type):
     
     plt.tight_layout()
     
-    plt.show()
     Writer = animation.FFMpegWriter(fps=30, bitrate=1800)
     animation_obj.save(f'{result_dir}/{type}.mp4', writer=Writer)
+    plt.show()
