@@ -58,8 +58,6 @@ Contains one row per particle with initial state:
 |---|---|---|---|---|---|---|---|---|
 | long double | long double | long double | long double | long double | long double | long double | long double | long double |
 
-> The program needs one particle at least
-
 ---
 ## Run the project
 
