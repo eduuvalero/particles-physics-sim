@@ -1,10 +1,16 @@
-# PARTICLE PHYSICS SIMULATOR
+# Particle Physics Simulator
 
-This project is a simple particle physics simulator that calculates the acceleration of each particle taking into account gravitational force, electrical force and elastic collisions with other particles. Once the simulation is complete, it trains a Random Forest Regressor machine learning model from scikit-learn and makes a prediction of the movement of the particles with the model. Finally, it shows and saves one animation with the simulation, another animation with the prediction, and an image comparing both movements.
+This project is a simple particle physics simulator that simulates the motion of charged particles in 3D space with a C++ engine, trains a Random Forest Regressor machine learning model from scikit-learn model in Python, and visualizes, stores and compare both simulated and predicted trajectories.
 
-- The simulation is made in C++, and it has a time complexity of $$O(m * n^2)$$, where ***m*** is the number of **steps** and ***n*** is the number of **particles**
-- The machine learning model is trained and run in Python, using Pandas, Numpy and the Scikit-Learn library for it. 
-- The visualization it's also made in Python using Numpy and MatplotLib.
+The pipeline includes:
+- A **C++ simulator** with pairwise gravitational and electrostatic interactions plus elastic collisions
+- A **Python ML stage** using scikit-learn (`RandomForestRegressor`) to predict future positions
+- A **Python visualization stage** with Matplotlib animations and trajectory comparison plots
+
+The simulation complexity is `O(m * n^2)`, where:
+- `m` is the number of time steps
+- `n` is the number of particles
+
 ---
 This is an example of the output of the full program running it with the default values of`data\dataset.csv` and `data\config.csv`
 
@@ -17,52 +23,45 @@ This is an example of the output of the full program running it with the default
 ---
 ## Requirements
 
-### System dependencies
-- **C++17** or later
-  - MacOS: `xcode-select --install`
-  - Linux: `sudo apt install g++` | `sudo dnf install g++` | `pacman -Sy g++`
-  - Windows: [MinGW](https://www.mingw-w64.org/)
-   
-- **Make**
-  - MacOS: included with Xcode Command Line Tools
-  - Linux: `sudo apt install make` | `sudo dnf install make` | `pacman -Sy make`
-  - Windows: not necessary
-   
-- **Python 3** — [python.org](https://www.python.org/downloads/)
-  
-- **FFmpeg** — required for saving animations
-  - MacOS: `brew install ffmpeg`
-  - Linux: `sudo apt install ffmpeg` | `sudo dnf install ffmpeg` | `pacman -Sy ffmpeg`
-  - Windows: [ffmpeg.org/download.html](https://ffmpeg.org/download.html)
+### System
+- **C++17** compiler (e.g. `g++`)
+- **Python 3.9+**
+- **FFmpeg** (required to export MP4 animations)
 
 ### Python dependencies
-`pip install -r requirements.txt`
+Install with:
+
+```bash
+pip install -r requirements.txt
+```
 
 ---
-## How to use the program
-To use the program you will have to put some data in the `data\dataset.csv` and `data\config.csv` files. They contain some default values, but you may change them if you want to do add steps, change the time of each step, or add, substract or change the particles that will be simulated.
+## Input Files
 
-### Format of [`config.csv`](./data/config.csv)
-- ***steps*** is the number of positions that the program will simulate. Must be greater than 0
-- ***dt*** is the time of each movement in ***Seconds*** that will be used for the calculus. Must be greater than 0
-  
-| steps  | dt            |
-|--------|---------------|
-| (int)  | (long double) |
+### [`config.csv`](./data/config.csv)
+Contains global simulation settings:
+- `steps` (int): number of simulation steps, must be `> 0`
+- `dt` (float): time step in seconds, must be `> 0`
+| steps | dt |
+|---|---|
+| int | long double |
 
-### Format of [`dataset.csv`](./data/dataset.csv)
-It must contain at least one particle, but it can contain as many as you want
-- ***x, y, z*** is the initial position of the particle on each axis in ***Metres***
-- ***vx, vy, vz*** is the initial velocity of the particle on each axis in ***Metres/Second***
-- ***mass*** is the mass of the particle in ***Kilograms***. Must be greater than 0
-- ***charge*** is the charge of the particle in ***Coulombs***
-- ***radius*** is the radius of the particle in ***Metres***. Must be greater than 0
-  
-| x             | y             | z             | vx            | vy            | vz            | mass           | charge        | radius         |
-|---------------|---------------|---------------|---------------|---------------|---------------|----------------|---------------|----------------|
-| (long double) | (long double) | (long double) | (long double) | (long double) | (long double) | (long double)  | (long double) | (long double)  |
+### [`dataset.csv`](./data/dataset.csv)
+Contains one row per particle with initial state:
+- Position: `x, y, z` (meters)
+- Velocity: `vx, vy, vz` (m/s)
+- `mass` (kg, must be `> 0`)
+- `charge` (C)
+- `radius` (m, must be `> 0`)
+
+| x | y | z | vx | vy | vz | mass | charge | radius |
+|---|---|---|---|---|---|---|---|---|
+| long double | long double | long double | long double | long double | long double | long double | long double | long double |
+
+> The program needs one particle at least
+
 ---
-## How to run the program
+## Run the project
 
 There are two ways of running the program
 
@@ -71,45 +70,60 @@ There are two ways of running the program
 Runs everything in order — build, simulate, train, predict and visualize.
 The pipeline is smart: it only recompiles if a source file has changed, only re-simulates if `dataset.csv` or `config.csv` has changed, and only retrains if the simulation output has changed. If nothing has changed, each step is skipped automatically.
 
+Linux / macOS
+
 ```bash
-# Linux / MacOS
 ./run.sh
 ```
+
+Windows
+
 ```bash
-# Windows
 .\run.bat
 ```
 
-### Individual scripts
+### Individual stages
 
 Run each step separately from the `scripts/` folder when you only want to redo one single part of the pipeline.
 
 > Compile the C++ simulator
+Linux / MacOS
+
 ```bash
-# Linux / MacOS
 make
 ```
+
+Windows:
+
 ```bash
-# Windows
 .\scripts\build.bat
 ```
+
 > Run the simulator, train the model and generate predictions
+
+Linux/macOS
+
 ```bash
-# Linux / MacOS
 ./scripts/train.sh
 ```
-```bash
-# Windows
+
+Windows
+
+```bat
 .\scripts\train.bat
 ```
 
-> Open the visualizers
+> Visualize the final result
+
+Linux/macOS
+
 ```bash
-# Linux / MacOS
 ./scripts/visualize.sh
 ```
-```bash
-# Windows
+
+Windows:
+
+```bat
 .\scripts\visualize.bat
 ```
 ---
@@ -119,42 +133,41 @@ make
 - Python: machine learning pipeline and visualization
 - CSV files: interface between both systems
 
-  particle-physics-simulator/
-├── src/  
-│   ├── main.cc  
-│   ├── Physics.cc  
-│   ├── Physics.h  
-│   ├── Particle.cc  
-│   └── Particle.h  
-├── model/  
-│   ├── train.py  
-│   ├── predictions.py  
-│   └── utils.py  
-├── visualize/  
-│   ├── visualizer.py   
-│   ├── comparison.py  
-│   ├── prediction.py   
-│   ├── simulation.py  
-│   ├── utils.py   
-│   └── config.py   
-├── scripts/  
-│   ├── train.sh   
-│   ├── visualize.sh   
-│   ├── build.bat  
-│   ├── train.bat  
-│   └── visualize.bat  
-├── data/  
-│   ├── config.csv  
-│   ├── dataset.csv  
-│   ├── particles.csv    
-│   ├── predictions.csv    
-│   └── model.pkl   
-├── requirements.txt    
-├── run.sh    
-├── run.bat   
-├── Makefile   
-├── license   
-└── README.md   
+```text
+particle-physics/
+├── simulator/
+│   ├── main.cc
+│   ├── Physics.cc
+│   ├── Physics.h
+│   ├── Particle.cc
+│   └── Particle.h
+├── model/
+│   ├── train.py
+│   ├── predictions.py
+│   └── utils.py
+├── visualize/
+│   ├── visualizer.py
+│   ├── comparison.py
+│   ├── prediction.py
+│   ├── simulation.py
+│   ├── utils.py
+│   └── config.py
+├── scripts/
+│   ├── build.bat
+│   ├── train.sh
+│   ├── train.bat
+│   ├── visualize.sh
+│   └── visualize.bat
+├── data/
+│   ├── config.csv
+│   └── dataset.csv
+├── requirements.txt
+├── makefile
+├── run.sh
+├── run.bat
+└── README.md
+```
+
 ---
 ## How the program works
 
@@ -179,34 +192,29 @@ Over a full simulation of $$m$$ steps, the total time complexity is $$O(m \cdot 
 ---
 
 ### Python ML model
-The ML pipeline takes the simulation output and trains a model to predict future particle positions. It consists of two stages: training and inference.
 
-#### Feature function
-Before training, three additional features are derived from the raw simulation data:
-- **Speed** — scalar magnitude of the velocity vector
-- **Acceleration magnitude** — scalar magnitude of the acceleration vector  
-- **Distance to origin** — Euclidean distance from the coordinate origin
+The model is trained on simulation output to predict future positions `(x, y, z)` at a fixed horizon `H`.
 
-This gives the model 12 input features per particle per step: position (x, y, z), velocity (vx, vy, vz), acceleration (ax, ay, az) and the three derived features.
+Features include:
+- position (`x, y, z`)
+- velocity (`vx, vy, vz`)
+- acceleration (`ax, ay, az`)
+- derived scalars (`speed`, `acc_mag`, `dist_origin`)
 
-#### Training
-Given the state of a particle at step t, the model learns to predict its position (x, y, z) at step t + H, where H is the prediction horizon. The dataset is built by sliding a window of size H over each particle's trajectory.
+Feature vector at step `t`:
 
-The model is a **Random Forest Regressor** — an ensemble of decision trees that captures non-linear relationships between the input features and the target position. Training uses 80% of the data, with the remaining 20% held out for evaluation.
+$$X_t = [x_t, y_t, z_t, vx_t, vy_t, vz_t, ax_t, ay_t, az_t, ||\vec{v}_t||, ||\vec{a}_t||, ||\vec{r}_t||]$$
 
-| Metric | Value |
-|--------|-------|
-| R² train | 0.9995 |
-| R² test  |0.9995 |
-| Horizon  |200 |
-> The high R² score is expected due to the deterministic nature of the system and the strong correlation between input features and target variables.
+Target vector:
 
-#### Inference
-The trained model and feature scaler are saved to `data/model.pkl`. The inference script loads this file, runs predictions for each particle across the full trajectory, and writes the results to `data/predictions.csv`.
+$$Y_t = [x_{t+H}, y_{t+H}, z_{t+H}]$$
+
+The dataset is built with a sliding window per particle trajectory. A `RandomForestRegressor` is trained after scaling inputs with `StandardScaler`.
+
+The trained model is saved to `data/model.pkl`, and predictions are written to `data/predictions.csv`.
 
 > #### Limitations of the ML model
-> The current model is quite simple and it directly predicts future positions, which does not enforce physical constraints such as conservation of energy or momentum.
-> As a result, predictions may diverge for long horizons despite high R² scores.
+> The current model is quite simple and it directly predicts future positions, which does not enforce physical constraints such as conservation of energy or momentum. As a result, predictions may diverge for long horizons despite high R² scores.
 
 ---
 
@@ -216,7 +224,7 @@ The visualization module compares the physics simulation with the machine learni
 
 > The goal is to provide a qualitative evaluation of how well the ML model reproduces the underlying physical system.
 
-#### Simulation animation (ground truth)
+#### Simulation animation
 
 This animation visualizes the evolution of the particle system generated by the C++ simulator. Each particle is displayed as a point in 3D space, evolving under gravitational and electrostatic forces computed at each simulation step.
 
@@ -235,17 +243,14 @@ A static plot is generated where both trajectories are overlaid:
 
 This visualization highlights deviations between physical and learned dynamics.
 
-This allows observation of:
-- trajectory divergence
-- stability over time
-- accumulated prediction error
+Outputs are stored under a timestamped run directory in `results/`.
 
 ---
 ## Limitations
--  $$O(n^2)$$ scaling limits large simulations
-- No relativistic or quantum effects
-- Simple ML model that no enforce physical laws
-- MatplotLib doing the animations
+- Pairwise-force simulation scales as $$O(n^2)$$ per step, which limits large particle counts
+- No relativistic or quantum effects are modeled
+- The model predicts positions directly and does not enforce conservation laws
+- Matplotlib visualization is very limited. It is suitable for analysis/prototyping, not real-time large-scale rendering
 
 ---
 ## Physical laws and methods of the simulation

@@ -20,8 +20,8 @@ make
 echo ""
 
 echo "[2/5] Running simulator..."
-if [ ! -f "data/particles.csv" ] || [ "data/dataset.csv" -nt "data/particles.csv" ] || [ "data/config.csv" -nt "data/particles.csv" ] || [ "src/simulator"    -nt "data/particles.csv" ]; then
-    src/simulator
+if [ ! -f "data/particles.csv" ] || [ "data/dataset.csv" -nt "data/particles.csv" ] || [ "data/config.csv" -nt "data/particles.csv" ] || [ "simulator/simulator" -nt "data/particles.csv" ]; then
+    simulator/simulator
     echo "Simulator done"
 else
     echo "Simulation up to date, skipping"
@@ -49,9 +49,9 @@ echo ""
 echo "[5/5] Visualizing..."
 DIR=$(python visualize/utils.py)
 echo "Results dir: $DIR"
-python visualizer/comparison-vis.py --results "$DIR" &
-python visualizer/prediction.py --results "$DIR" &
-python visualizer/simulation.py --results "$DIR" &
+python visualize/comparison.py --results "$DIR" &
+python visualize/prediction.py --results "$DIR" &
+python visualize/simulation.py --results "$DIR" &
 echo ""
 
 echo "========================================="

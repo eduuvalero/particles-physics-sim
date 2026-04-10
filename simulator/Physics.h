@@ -17,6 +17,7 @@ class Physics{
         std::vector <Particle> particles;
         long double dt;
         std::vector<Collision> collisions;
+        bool accelerations_initialized;
 
         void computeAccelerations();
         void handleCollisions();  

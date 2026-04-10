@@ -92,8 +92,14 @@ pause
 exit /b 0
 
 :check_newer
-    for %%A in (%1) do set T1=%%~tA
-    for %%A in (%2) do set T2=%%~tA
+    if not exist "%~2" (
+        set RUN_SIM=1
+        set RUN_TRAIN=1
+        set RUN_PRED=1
+        exit /b 0
+    )
+    for %%A in ("%~1") do set T1=%%~tA
+    for %%A in ("%~2") do set T2=%%~tA
     if "!T1!" gtr "!T2!" set RUN_SIM=1& set RUN_TRAIN=1& set RUN_PRED=1
     exit /b 0
 

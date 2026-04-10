@@ -2,11 +2,13 @@
 #include <cmath>
 #include <array>
 
-Physics::Physics(long double dt) : dt(dt) {}
+Physics::Physics(long double dt) : dt(dt), accelerations_initialized(false) {}
 
 void Physics::addParticle(const Particle& p){ particles.push_back(p); }
 
 void Physics::computeAccelerations(){
+    collisions.clear();
+
     for(Particle& p : particles)
         for(int k = 0; k < kDIMENSION; k++)
             p.acceleration[k] = 0;
@@ -37,14 +39,15 @@ void Physics::computeAccelerations(){
             for(int k = 0; k < kDIMENSION; k++){
                 #pragma omp atomic
                 // Acceleration that a makes to b
-                b.acceleration[k] += (gravForce[k] +  elctricForce[k]/ b.mass);
+                b.acceleration[k] += (gravForce[k] + elctricForce[k]) / b.mass;
 
                 // Acceleration that b makes to a
                 #pragma omp atomic
-                a.acceleration[k] -= (gravForce[k] +  elctricForce[k] / a.mass);
+                a.acceleration[k] -= (gravForce[k] + elctricForce[k]) / a.mass;
             }
 
             if(dist < (a.radius + b.radius)){
+                #pragma omp critical
                 collisions.push_back({i,j});
             }
         }
@@ -52,6 +55,11 @@ void Physics::computeAccelerations(){
 }
 
 void Physics::step(){
+    if(!accelerations_initialized){
+        computeAccelerations();
+        accelerations_initialized = true;
+    }
+
     for(Particle& p : particles)
         p.updatePosition(dt);
 

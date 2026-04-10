@@ -1,10 +1,14 @@
 *.o
-simulator
-simulator.exe
-data/particles.csv
-data/model.pkl
-__pycache__/
-predictions.csv
-results/
+*.obj
+*.exe
 
-!simulator/
+simulator/simulator
+simulator/simulator.exe
+
+__pycache__/
+
+data/particles.csv
+data/predictions.csv
+data/model.pkl
+
+results/

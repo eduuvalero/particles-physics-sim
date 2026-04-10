@@ -14,14 +14,14 @@ if [ ! -f "data/dataset.csv" ]; then
     exit 1
 fi
 
-if [ ! -f "src/simulator" ]; then
-    echo "[ERROR] src/simulator not found"
-    echo "Please build first using: scripts/build-[linux].sh"
+if [ ! -f "simulator/simulator" ]; then
+    echo "[ERROR] simulator/simulator not found"
+    echo "Please build first using: make"
     exit 1
 fi
 
 echo "[1/3] Running simulator..."
-src/simulator
+simulator/simulator
 echo "Simulator done"
 echo ""
 
