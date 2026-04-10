@@ -1,0 +1,10 @@
+*.o
+simulator
+simulator.exe
+data/particles.csv
+data/model.pkl
+__pycache__/
+predictions.csv
+results/
+
+!simulator/
