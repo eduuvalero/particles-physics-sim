@@ -9,9 +9,11 @@ void Physics::addParticle(const Particle& p){ particles.push_back(p); }
 void Physics::computeAccelerations(){
     collisions.clear();
 
-    for(Particle& p : particles)
-        for(int k = 0; k < kDIMENSION; k++)
+    for(Particle& p : particles){
+        for(int k = 0; k < kDIMENSION; k++){
             p.acceleration[k] = 0;
+        }
+    }
 
     #pragma omp parallel for schedule(dynamic)
     for(size_t i = 0; i < particles.size(); i++){
@@ -60,8 +62,9 @@ void Physics::step(){
         accelerations_initialized = true;
     }
 
-    for(Particle& p : particles)
+    for(Particle& p : particles){
         p.updatePosition(dt);
+    }
 
     std::vector<std::array<long double, kDIMENSION>> acc_old(particles.size());
     for(size_t i = 0; i < particles.size(); i++)

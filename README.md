@@ -42,6 +42,7 @@ pip install -r requirements.txt
 Contains global simulation settings:
 - `steps` (int): number of simulation steps, must be `> 0`
 - `dt` (float): time step in seconds, must be `> 0`
+
 | steps | dt |
 |---|---|
 | int | long double |
