@@ -86,8 +86,8 @@ Windows
 Run each step separately when you only want to redo one part of the pipeline.
 
 > Compile the C++ simulator
-Linux / MacOS
 
+Linux / MacOS
 ```bash
 make
 ```
@@ -97,7 +97,7 @@ Windows:
 ```bash
 .\scripts\build.bat
 ```
-
+---
 > Run the simulator, train the model and generate predictions
 
 Linux/macOS
@@ -111,7 +111,7 @@ Windows
 ```bat
 .\scripts\train.bat
 ```
-
+---
 > Visualize the final result
 
 Linux/macOS
@@ -182,9 +182,9 @@ At each time step, the simulator:
 3. Updates velocities using the average of the old and new accelerations
 4. [Resolves elastic collisions](#elastic-collision) between overlapping particles
 
-The time complexity per simulation step is $$O(n^2)$$, since all pairwise interactions are evaluated.
+The time complexity per simulation step is $O(n^2)$, since all pairwise interactions are evaluated.
 
-Over a full simulation of $$m$$ steps, the total time complexity is $$O(m \cdot n^2)$$, where ***m*** is the number of **steps** and ***n*** is the number of **particles**. This is acceptable for small to medium simulations; for large-scale simulations a spatial partitioning algorithm such as [Barnes-Hut](https://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation) could reduce the per-step complexity from  $$O(n^2)$$ to  $$O(n \cdot \log{n})$$
+Over a full simulation of $m$ steps, the total time complexity is $O(m \cdot n^2)$, where ***m*** is the number of **steps** and ***n*** is the number of **particles**. This is acceptable for small to medium simulations; for large-scale simulations a spatial partitioning algorithm such as [Barnes-Hut](https://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation) could reduce the per-step complexity from  $O(n^2)$ to  $O(n \cdot \log{n})$
 
 > The simulation outputs position, velocity and acceleration vectors for each particle at every time step to a CSV file that also contains the mass, charge and radius of each particle. This file is used as input for the ML pipeline.
 
@@ -246,7 +246,7 @@ Outputs are stored under a timestamped run directory in `results/`.
 
 ---
 ## Limitations
-- Pairwise-force simulation scales as $$O(n^2)$$ per step, which limits large particle counts
+- Pairwise-force simulation scales as $O(n^2)$ per step, which limits large particle counts
 - No relativistic or quantum effects are modeled
 - The model predicts positions directly and does not enforce conservation laws
 - Matplotlib visualization is very limited. It is suitable for analysis/prototyping, not real-time large-scale rendering
@@ -304,7 +304,7 @@ $$  \vec{v}_a' = \vec{v}_a + (v_{a,n}' - v_{a,n}) \vec{n}, \quad \quad  \vec{v}_
 $$\delta = \frac{r_a + r_b - |\vec{r}_b - \vec{r}_a|}{2}$$
 
 $$  \vec{r}_a' = \vec{r}_a - \delta \vec{n} \quad \quad  \vec{r}_b' = \vec{r}_b + \delta \vec{n}  $$
-
+j
 *[Return](#c-simulator)*
 </div>
 
